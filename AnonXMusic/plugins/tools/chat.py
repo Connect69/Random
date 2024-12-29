@@ -4,8 +4,8 @@ from pyrogram import filters
 from pyrogram.types import Message
 from AnonXMusic import app
 
-# Load pre-trained conversational model
-chatbot = pipeline("conversational-ai", model="microsoft/DialoGPT-medium")
+# Load pre-trained chatbot model
+chatbot = pipeline("chatbot", model="microsoft/DialoGPT-medium")
 
 # Define a function to process user input and generate a response
 @app.on_message(filters.private & filters.text)
