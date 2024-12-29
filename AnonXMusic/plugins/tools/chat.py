@@ -1,18 +1,31 @@
-import torch
-from transformers import T5ForConditionalGeneration, T5Tokenizer
+import os
+from pyrogram import filters
+import openai
+from AnonXMusic import app 
 
-# Load pre-trained T5 model and tokenizer
-model = T5ForConditionalGeneration.from_pretrained('t5-base')
-tokenizer = T5Tokenizer.from_pretrained('t5-base')
+# Set up your OpenAI API key
+openai.api_key = "YOUR_OPENAI_API_KEY"
 
-# Define a function to generate text
-def generate_text(input_text):
-    input_ids = tokenizer.encode(input_text, return_tensors='pt')
-    output = model.generate(input_ids, max_length=100)
-    response = tokenizer.decode(output[0], skip_special_tokens=True)
-    return response
 
-# Test the generate_text function
-input_text = "Hello, how are you?"
-response = generate_text(input_text)
-print(response)
+# Define a function to generate a response using OpenAI's GPT-3 or GPT-4
+def generate_response(prompt):
+    response = openai.Completion.create(
+        engine="text-davinci-003",  # You can use "text-davinci-003" for GPT-3 or "gpt-4" if available
+        prompt=prompt,
+        max_tokens=150,
+        n=1,
+        stop=None,
+        temperature=0.9,
+    )
+    return response.choices[0].text.strip()
+
+# Handle incoming messages
+@app.on_message(filters.text & ~filters.command)
+def chat_with_user(client, message):
+    user_input = message.text
+    try:
+        bot_response = generate_response(user_input)
+        message.reply_text(bot_response)
+    except Exception as e:
+        message.reply_text("Oops! Something went wrong. Please try again later.")
+
