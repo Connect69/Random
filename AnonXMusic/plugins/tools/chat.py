@@ -4,26 +4,30 @@ import openai
 from AnonXMusic import app
 
 # Set up your OpenAI API key
-openai.api_key = "4ac088d9541a4df292f67b41c7d1aa96"
+openai.api_key = "YOUR_OPENAI_API_KEY_HERE"
 
 # Define a function to generate a response using OpenAI's GPT-3 or GPT-4
-def generate_response(prompt):
+async def generate_response(prompt):
     response = openai.Completion.create(
         engine="text-davinci-003",  # You can use "text-davinci-003" for GPT-3 or "gpt-4" if available
         prompt=prompt,
-        max_tokens=150,
+        max_tokens=200,
         n=1,
         stop=None,
-        temperature=0.9,
+        temperature=0.7,
     )
     return response.choices[0].text.strip()
 
-# Handle incoming messages
-@app.on_message(filters.text & filters.regex(r'^[^/].*'))
-def chat_with_user(client, message):
+# Define a function to handle user input
+async def handle_user_input(client, message):
     user_input = message.text
     try:
-        bot_response = generate_response(user_input)
-        message.reply_text(bot_response)
+        bot_response = await generate_response(user_input)
+        await message.reply_text(bot_response)
     except Exception as e:
-        message.reply_text("Oops! Something went wrong. Please try again later.")
+        await message.reply_text("Oops! Something went wrong. Please try again later.")
+
+# Handle incoming messages
+@app.on_message(filters.private & filters.regex(r'^[^/].*'))
+async def chat_with_user(client, message):
+    await handle_user_input(client, message)
