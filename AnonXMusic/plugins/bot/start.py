@@ -110,6 +110,7 @@ async def start_pm(client, message: Message, _):
     await lol.edit_text("ꜱᴛᴀʀᴛɪɴɢ..")
     await asyncio.sleep(0.1)
     await lol.edit_text("ꜱᴛᴀʀᴛɪɴɢ...")
+    await asyncio.sleep(0.2)
     await lol.edit_text("ꜱᴛᴀʀᴛɪɴɢ.")
     await asyncio.sleep(0.1)
     await lol.edit_text("ꜱᴛᴀʀᴛɪɴɢ..")
