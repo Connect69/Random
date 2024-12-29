@@ -5,7 +5,7 @@ from pyrogram.types import Message
 from AnonXMusic import app 
 
 # Load pre-trained conversational model
-chatbot = pipeline("conversational", model="microsoft/DialoGPT-medium")
+chatbot = pipeline("text-generation", model="microsoft/DialoGPT-medium")
 
 
 
