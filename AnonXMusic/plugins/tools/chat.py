@@ -1,18 +1,22 @@
-import emoji
-from transformers import pipeline
+import torch
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from pyrogram import filters
 from pyrogram.types import Message
 from AnonXMusic import app
 
-# Load pre-trained chatbot model
-chatbot = pipeline("chatbot", model="microsoft/DialoGPT-medium")
+# Load pre-trained model and tokenizer
+model_name = "t5-base"
+model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 # Define a function to process user input and generate a response
 @app.on_message(filters.private & filters.text)
 async def chat_with_bot(client, message: Message):
     user_input = message.text
-    # Generate a response based on the user input
-    conversation = chatbot(user_input)
-    bot_response = conversation[0]['generated_text']
-    final_response = emoji.emojize(bot_response)
-    await message.reply(final_response)
+    # Tokenize user input
+    inputs = tokenizer(user_input, return_tensors="pt")
+    # Generate response
+    outputs = model.generate(inputs["input_ids"], max_length=100)
+    # Convert response to text
+    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    await message.reply(response)
