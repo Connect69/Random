@@ -1,13 +1,12 @@
 import torch
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+from transformers import T5ForConditionalGeneration, T5Tokenizer
 from pyrogram import filters
 from pyrogram.types import Message
 from AnonXMusic import app
 
 # Load pre-trained model and tokenizer
-model_name = "t5-base"
-model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = T5ForConditionalGeneration.from_pretrained("t5-base")
+tokenizer = T5Tokenizer.from_pretrained("t5-base")
 
 # Define a function to process user input and generate a response
 @app.on_message(filters.private & filters.text)
