@@ -19,5 +19,5 @@ async def chat_with_bot(client, message: Message):
     # Friendly response
     friendly_response = "Alaris grins, her fingers flying across the keyboard as she types furiously. Okay, listen up! I'm going to walk you through this step-by-step."
     # Combine the friendly response with the bot response
-    final_response = f"{friendly_response} {emoji.emojize(bot_response, use_aliases=True)}"
+    final_response = f"{friendly_response} {emoji.emojize(bot_response)}"
     await message.reply(final_response)
