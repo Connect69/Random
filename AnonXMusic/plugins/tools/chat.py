@@ -1,11 +1,10 @@
 import os
 from pyrogram import filters
 import openai
-from AnonXMusic import app 
+from AnonXMusic import app
 
 # Set up your OpenAI API key
 openai.api_key = "4ac088d9541a4df292f67b41c7d1aa96"
-
 
 # Define a function to generate a response using OpenAI's GPT-3 or GPT-4
 def generate_response(prompt):
@@ -20,7 +19,7 @@ def generate_response(prompt):
     return response.choices[0].text.strip()
 
 # Handle incoming messages
-@app.on_message(filters.text & ~filters.command)
+@app.on_message(filters.text & filters.regex(r'^[^/].*'))
 def chat_with_user(client, message):
     user_input = message.text
     try:
@@ -28,4 +27,3 @@ def chat_with_user(client, message):
         message.reply_text(bot_response)
     except Exception as e:
         message.reply_text("Oops! Something went wrong. Please try again later.")
-
