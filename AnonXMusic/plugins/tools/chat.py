@@ -4,7 +4,7 @@ import openai
 from AnonXMusic import app
 
 # Set up your OpenAI API key
-openai.api_key = "proj_FfcryewuzBK3YvcdlrD1sUPO"
+openai.api_key = "proj_Mh2EgJ6nfVc7tszL0gX7Za12"
 
 # Define a function to generate a response using OpenAI's GPT-3 or GPT-4
 async def generate_response(prompt):
